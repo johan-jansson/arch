@@ -22,6 +22,8 @@
 
 loadkeys sv-latin1
 timedatectl set-ntp true
+
+# gpt partition table
 parted /dev/nvme1n1 mklabel gpt
 parted /dev/nvme1n1 unit mib
 parted /dev/nvme1n1 mkpart primary 1 512
@@ -29,29 +31,30 @@ parted /dev/nvme1n1 name 1 boot
 parted /dev/nvme1n1 set 1 boot on
 parted /dev/nvme1n1 mkpart primary 513 100%
 parted /dev/nvme1n1 name 2 archlinux
-mkfs.fat -F32 /dev/nvme1n1p1
-mkfs.ext4 /dev/nvme1n1p2
 
-# crypto on root partition
-cryptsetup -c aes-xts-plain64 -y --hash sha256 --use-random luksFormat /dev/nvme1n1p2
-cryptsetup luksOpen /dev/nvme1n1p2 crypto
+# luks: encrypt and open root partition /dev/mapper/crypto
+cryptsetup luksFormat -v -s 512 -h sha256 /dev/nvme1n1p2
+cryptsetup open /dev/nvme1n1p2 crypto
 
-# swap partition from 32Gb of root partition
+# lvm: create virtual groups for root (/dev/mapper/arch-root) and swap partition (/dev/mapper/arch-swap)
 pvcreate /dev/mapper/crypto
 vgcreate arch /dev/mapper/crypto
 lvcreate --size 32G arch --name swap
 lvcreate -l +100%FREE arch --name root
+
+# initialize filesystems
+mkfs.fat -F32 /dev/nvme1n1p1
 mkfs.ext4 /dev/mapper/arch-root
 mkswap /dev/mapper/arch-swap
 
 # mount everything
 mount /dev/mapper/arch-root /mnt 
-swapon /dev/mapper/arch-swap
 mkdir /mnt/boot
 mount /dev/nvme1n1p1 /mnt/boot
+swapon /dev/mapper/arch-swap
 
-# minimal hardened environment with lan + wireless networking
-pacstrap /mnt base base-devel grub efibootmgr linux-hardened linux-firmware mkinitcpio lvm2 e2fsprogs iproute2 dhcpcd dialog wpa_supplicant man-db sudo neovim git zsh zsh-syntax-highlighting zsh-autosuggestions
+# minimal environment with lan + wireless networking
+pacstrap /mnt base base-devel efibootmgr grub linux linux-firmware mkinitcpio lvm2 e2fsprogs iproute2 dhcpcd dialog wpa_supplicant man-db sudo neovim git zsh zsh-syntax-highlighting zsh-autosuggestions
 genfstab -pU /mnt >> /mnt/etc/fstab
 echo "tmpfs	/tmp	tmpfs	defaults,noatime,mode=1777	0	0" >> /mnt/etc/fstab
 arch-chroot /mnt ln -sf /usr/share/zoneinfo/Europe/Stockholm /etc/localtime
@@ -66,28 +69,19 @@ echo "::1         localhost" >> /mnt/etc/hosts
 echo "127.0.1.1   mercury.lind  mercury" >> /mnt/etc/hosts
 arch-chroot /mnt systemctl enable dhcpcd
 echo "%wheel ALL=(ALL) ALL" >> /mnt/etc/sudoers
-arch-chroot /mnt useradd -m -g users -G wheel -s /bin/zsh j
-arch-chroot /mnt passwd j
+arch-chroot /mnt useradd -m -g users -G wheel -s /bin/zsh johan
+arch-chroot /mnt passwd johan
 arch-chroot /mnt passwd -d root
-
-#### vim /mnt/etc/mkinitcpio.conf
-#### Add 'ext4' to MODULES
-#### Add 'encrypt' and 'lvm2' to HOOKS before filesystems
-#### EX1: sed -i 's/HOOKS=(base\ udev\ autodetect\ modconf\ block\ filesystems\ keyboard\ fsck)/HOOKS="base\ udev\ autodetect\ modconf\ block\ encrypt\ filesystems\ keyboard\ fsck"/' /etc/mkinitcpio.conf
-
-arch-chroot /mnt mkinitcpio -p linux-hardened
+arch-chroot /mnt sed -i 's/MODULES=()/HOOKS=(ext4)' /etc/mkinitcpio.conf
+arch-chroot /mnt sed -i 's/HOOKS=(base\ udev\ autodetect\ modconf\ block\ filesystems\ keyboard\ fsck)/HOOKS="base\ udev\ autodetect\ modconf\ block\ encrypt\ lvm2\ filesystems\ keyboard\ fsck"/' /etc/mkinitcpio.conf
+arch-chroot /mnt mkinitcpio -p linux
 arch-chroot /mnt grub-install --target=x86_64-efi --efi-directory=/boot
-
-#### vim /mnt/etc/default/grub
-#### Edit to 'GRUB_CMDLINE_LINUX="cryptdevice=/dev/nvme0n1p2:crypto:allow-discards"'
-#### EX: sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT="loglevel=3 quiet"/GRUB_CMDLINE_LINUX_DEFAULT="cryptdevice=\/dev\/nvme0n1p2:crypto:allow-discards"/' /etc/default/grub
-
+arch-chroot /mnt sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT=""/GRUB_CMDLINE_LINUX_DEFAULT="cryptdevice=\/dev\/nvme1n1p2:crypto:allow-discards"/' /etc/default/grub
 arch-chroot /mnt grub-mkconfig -o /boot/grub/grub.cfg
 
-# minimal xorg with gpu and audio
-#arch-chroot /mnt pacman --noconfirm -Sy libx11 libxft xorg-server xorg-xinit xorg-xrandr xorg-xrdb xorg-xinput xclip xorg-setxkbmap nvidia xorg-fonts-encodings picom libxinerama xwallpaper archlinux-wallpaper pulseaudio pulseaudio-alsa pulsemixer
+# minimal xorg with nvidia gpu acceleration and pulseaudio
+arch-chroot /mnt pacman --noconfirm -Sy libx11 libxft xorg-server xorg-xinit xorg-xrandr xorg-xrdb xorg-xinput xclip xorg-setxkbmap nvidia xorg-fonts-encodings libxinerama pulseaudio pulseaudio-alsa pulsemixer
 
 umount -R /mnt
 swapoff -a
 reboot
-
