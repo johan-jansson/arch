@@ -1,0 +1,15 @@
+#!/bin/zsh
+
+# deploy dotfiles and dotfile management
+mkdir $HOME/.config/
+mkdir $HOME/.config/dot/
+echo ".config/dot" >> .gitignore # no recursion plz
+git clone --bare https://github.com/johan-jansson/dot $HOME/.config/dot
+/usr/bin/git --git-dir=$HOME/.config/dot/ --work-tree=$HOME checkout
+/usr/bin/git --git-dir=$HOME/.config/dot/ --work-tree=$HOME config --local status.showUntrackedFiles no
+
+# cleanup
+rm -f "$HOME/deploy"
+rm -f "$HOME/README.md"
+cd
+config update-index --assume-unchanged "README.md"
