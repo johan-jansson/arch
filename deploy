@@ -9,7 +9,7 @@ git clone --bare https://github.com/johan-jansson/dot $HOME/.config/dot
 /usr/bin/git --git-dir=$HOME/.config/dot/ --work-tree=$HOME config --local status.showUntrackedFiles no
 
 # productivity
-sudo pacman -Sy --noconfirm wireguard-tools keepassxc thunderbird syncthing code inkscape gimp texstudio texlive-core transmission-gtk obs-studio signal-desktop element-desktop vlc julia sxhkd
+sudo pacman -Sy --noconfirm wireguard-tools keepassxc thunderbird syncthing code inkscape gimp texstudio texlive-core transmission-gtk obs-studio signal-desktop element-desktop vlc julia sxhkd neofetch
 
 # dependencies for productivity, specific to configuration
 sudo pacman --noconfirm -Sy openresolv pdf2svg screenkey rtmpdump atomicparsley xdotool python-neovim ttf-joypixels ttf-dejavu python-pdftotext python-sympy nodejs yarn fzf ripgrep bat pacman-contrib
