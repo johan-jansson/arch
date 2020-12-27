@@ -12,7 +12,7 @@ git clone --bare https://github.com/johan-jansson/dot $HOME/.config/dot
 sudo pacman -Sy --noconfirm wireguard-tools keepassxc thunderbird syncthing code inkscape gimp texstudio texlive-core transmission-gtk obs-studio signal-desktop element-desktop vlc julia sxhkd
 
 # dependencies for productivity, specific to configuration
-sudo pacman --noconfirm -Sy openresolv pdf2svg screenkey rtmpdump atomicparsley xdotool python-neovim ttf-joypixels python-pdftotext python-sympy nodejs yarn fzf ripgrep bat pacman-contrib
+sudo pacman --noconfirm -Sy openresolv pdf2svg screenkey rtmpdump atomicparsley xdotool python-neovim ttf-joypixels ttf-dejavu python-pdftotext python-sympy nodejs yarn fzf ripgrep bat pacman-contrib
 
 # aur helper
 cd $HOME
