@@ -8,6 +8,26 @@ git clone --bare https://github.com/johan-jansson/dot $HOME/.config/dot
 /usr/bin/git --git-dir=$HOME/.config/dot/ --work-tree=$HOME checkout
 /usr/bin/git --git-dir=$HOME/.config/dot/ --work-tree=$HOME config --local status.showUntrackedFiles no
 
+# productivity
+sudo pacman -Sy --noconfirm wireguard-tools keepassxc thunderbird syncthing code inkscape gimp texstudio transmission-gtk obs-studio signal-desktop element-desktop
+
+# aur helper
+cd $HOME
+git clone https://aur.archlinux.org/yay
+cd yay
+makepkg -si --noconfirm
+cd $HOME
+rm -rf yay
+
+# aur packages
+yay --cleanafter -S brave
+yay --cleanafter -S ttf-juliamono
+yay --cleanafter -S zoom
+yay --cleanafter -S mattermost-desktop-bin
+yay --cleanafter -S discord
+yay --cleanafter -S teams
+yay --cleanafter -S spotify
+
 # cleanup
 rm -f "$HOME/deploy"
 rm -f "$HOME/README.md"
