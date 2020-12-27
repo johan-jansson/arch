@@ -85,11 +85,11 @@ arch-chroot /mnt sed -i 's/GRUB_CMDLINE_LINUX=""/GRUB_CMDLINE_LINUX="cryptdevice
 arch-chroot /mnt grub-mkconfig -o /boot/grub/grub.cfg
 
 # minimal xorg with nvidia gpu acceleration and pulseaudio
-#arch-chroot /mnt pacman --noconfirm -Sy libx11 libxft xorg-server xorg-xinit xorg-xrandr xorg-xrdb xorg-xinput xclip xorg-setxkbmap nvidia xorg-fonts-encodings libxinerama pulseaudio pulseaudio-alsa pulsemixer
+arch-chroot /mnt pacman --noconfirm -Sy libx11 libxft xorg-server xorg-xinit xorg-xrandr xorg-xrdb xorg-xinput xclip xorg-setxkbmap nvidia xorg-fonts-encodings libxinerama pulseaudio pulseaudio-alsa pulsemixer
 
-# gnome
-#arch-chroot /mnt pacman --noconfirm -Sy gnome
+# xfce4
+arch-chroot /mnt pacman --noconfirm -Sy xfce4
 
-#umount -R /mnt
-#swapoff -a
-#reboot
+umount -R /mnt
+swapoff -a
+reboot
