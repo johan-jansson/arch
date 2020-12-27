@@ -14,10 +14,10 @@
 # Based on https://wiki.archlinux.org/index.php/Installation_guide
 #
 # 0. boot archlinux-date-x86_64.iso
-# 1. git clone https://github.com/johan-jansson/arch-new
+# 1. git clone https://github.com/johan-jansson/arch-crypto
 # 2. ./arch
 # 3. reboot
-# 4. git clone https://github.com/johan-jansson/arch-new .
+# 4. git clone https://github.com/johan-jansson/arch-crypto .
 # 5. ./deploy
 
 loadkeys sv-latin1
