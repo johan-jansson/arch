@@ -40,8 +40,8 @@ mkfs.fat -F32 /dev/nvme1n1p1
 mkdir /mnt/boot
 mount /dev/nvme1n1p1 /mnt/boot
 
-# minimal environment with lan + wireless networking
-pacstrap /mnt base efibootmgr grub linux linux-firmware mkinitcpio e2fsprogs mdadm iproute2 dhcpcd dialog wpa_supplicant sudo 
+# minimal environment with lan + wireless networking and wireguard VPN
+pacstrap /mnt base efibootmgr grub linux linux-firmware mkinitcpio e2fsprogs mdadm iproute2 dhcpcd dialog wpa_supplicant sudo wireguard-tools resolvconf
 genfstab -pU /mnt >> /mnt/etc/fstab
 echo "tmpfs	/tmp	tmpfs	defaults,noatime,mode=1777	0	0" >> /mnt/etc/fstab
 arch-chroot /mnt ln -sf /usr/share/zoneinfo/Europe/Stockholm /etc/localtime
@@ -87,7 +87,7 @@ arch-chroot /mnt pacman --noconfirm -Sy xfce4 gvfs xfce4-goodies ttf-dejavu
 #yay --cleanafter -S brave-bin
 
 # productivity
-#sudo pacman -Sy --noconfirm wireguard-tools keepassxc thunderbird syncthing zathura zathura-pdf-mupdf
+#sudo pacman -Sy --noconfirm keepassxc thunderbird syncthing zathura zathura-pdf-mupdf
 
 
 
