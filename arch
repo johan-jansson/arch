@@ -106,8 +106,8 @@ arch-chroot /mnt git clone --bare https://github.com/johan-jansson/dot /home/joh
 arch-chroot /mnt /usr/bin/git --git-dir=/home/johan/.config/dot/ --work-tree=/home/johan checkout
 arch-chroot /mnt /usr/bin/git --git-dir=/home/johan/.config/dot/ --work-tree=/home/johan config --local status.showUntrackedFiles no
 arch-chroot /mnt chown johan.users -R /home/johan/
-arch-chroot /mnt rm -f "/home/johan/README.md"
 arch-chroot /mnt /usr/bin/git --git-dir=/home/johan/.config/dot/ --work-tree=/home/johan update-index --assume-unchanged "/home/johan/README.md"
+arch-chroot /mnt rm -f "/home/johan/README.md"
 
 # clean up and reboot
 #umount -R /mnt
