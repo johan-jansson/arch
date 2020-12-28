@@ -89,16 +89,17 @@ arch-chroot /mnt pacman --noconfirm -Sy gnome gnome-extra gnome-tweaks
 arch-chroot systemctl enable NetworkManager
 arch-chroot systemctl enable gdm
 
-# thumbnails DELETE THESE WHEN SYSTEM IS CLEAN
-arch-chroot /mnt pacman --noconfirm -Sy tumbler ffmpegthumbnailer poppler-glib freetype2 libgsf raw-thumbnailer totem
+# thumbnailers
+arch-chroot /mnt pacman --noconfirm -Sy mpv tumbler ffmpeg ffmpegthumbnailer poppler-glib freetype2 libgsf raw-thumbnailer totem
 
 # productivity
 arch-chroot /mnt pacman --noconfirm -Sy keepassxc thunderbird syncthing
 
-## productivity 2
-#sudo pacman -Sy --noconfirm code inkscape gimp texstudio texlive-core transmission-gtk obs-studio signal-desktop element-desktop vlc julia
-## dependencies for productivity, specific to configuration
-#sudo pacman --noconfirm -Sy openresolv pdf2svg screenkey rtmpdump atomicparsley xdotool python-neovim python-pdftotext python-sympy nodejs yarn fzf ripgrep bat pacman-contrib
+# productivity 2
+sudo pacman -Sy --noconfirm code inkscape gimp texstudio texlive-core transmission-gtk obs-studio signal-desktop element-desktop julia
+
+# dependencies for productivity, specific to configuration
+sudo pacman --noconfirm -Sy pdf2svg screenkey rtmpdump atomicparsley xdotool python-neovim python-pdftotext python-sympy nodejs yarn fzf ripgrep bat pacman-contrib
 
 # deploy configuration management
 arch-chroot /mnt mkdir /home/johan/.config/
