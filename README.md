@@ -2,7 +2,7 @@
 
 ## What it does
 
-WARNING: any data on /dev/nvme1n1 is destroyed when running this script
+_WARNING_: any data on /dev/nvme1n1 is destroyed when running this script
 
 * set swedish keymap and syncronize time using default ntp-server
 
