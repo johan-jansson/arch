@@ -87,7 +87,7 @@ arch-chroot /mnt pacman --noconfirm -Sy xfce4 xfce4-goodies ttf-dejavu
 #yay --cleanafter -S brave-bin
 
 # productivity
-#sudo pacman -Sy --noconfirm wireguard-tools keepassxc thunderbird syncthing
+#sudo pacman -Sy --noconfirm wireguard-tools keepassxc thunderbird syncthing zathura 
 
 
 
