@@ -44,9 +44,9 @@ mount /dev/nvme1n1p1 /mnt/boot
 cryptsetup open /dev/md/raid1 raid1
 mkdir /mnt/home/data/
 mount /dev/mapper/raid1 /mnt/home/data/
-#cryptsetup open /dev/sdb1 backup
-#mkdir /mnt/home/backup/
-#mount /dev/mapper/backup /mnt/home/backup/
+cryptsetup open /dev/sdb1 backup
+mkdir /mnt/home/backup/
+mount /dev/mapper/backup /mnt/home/backup/
 
 # minimal environment with lan + wireless networking and wireguard VPN
 pacstrap /mnt base efibootmgr grub linux linux-firmware mkinitcpio e2fsprogs mdadm iproute2 dhcpcd wpa_supplicant dialog wireguard-tools resolvconf sudo
