@@ -73,7 +73,7 @@ arch-chroot /mnt pacman --noconfirm -Sy git base-devel man-db neovim zsh zsh-syn
 arch-chroot /mnt pacman --noconfirm -Sy libx11 libxft xorg-server xorg-xinit xorg-xrandr xorg-xrdb xorg-xinput xclip xorg-setxkbmap nvidia nvidia-settings xorg-fonts-encodings libxinerama pulseaudio pulseaudio-alsa pulsemixer
 
 # xfce4
-arch-chroot /mnt pacman --noconfirm -Sy xfce4 xfce4-goodies sxhkd ttf-dejavu
+arch-chroot /mnt pacman --noconfirm -Sy xfce4 gvfs xfce4-goodies sxhkd ttf-dejavu
 
 # aur helper
 #cd $HOME
