@@ -67,13 +67,13 @@ arch-chroot /mnt sed -i 's/GRUB_CMDLINE_LINUX=""/GRUB_CMDLINE_LINUX="cryptdevice
 arch-chroot /mnt grub-mkconfig -o /boot/grub/grub.cfg
 
 # install basic tools
-arch-chroot /mnt pacman --noconfirm -Sy git base-devel man-db neovim zsh zsh-syntax-highlighting zsh-autosuggestions
+arch-chroot /mnt pacman --noconfirm -Sy git base-devel man-db neovim zsh zsh-syntax-highlighting
 
 # minimal xorg with nvidia gpu acceleration and pulseaudio
 arch-chroot /mnt pacman --noconfirm -Sy libx11 libxft xorg-server xorg-xinit xorg-xrandr xorg-xrdb xorg-xinput xclip xorg-setxkbmap nvidia nvidia-settings xorg-fonts-encodings libxinerama pulseaudio pulseaudio-alsa pulsemixer
 
 # xfce4
-arch-chroot /mnt pacman --noconfirm -Sy xfce4 xfce4-goodies ttf-dejavu ttf-joypixels
+arch-chroot /mnt pacman --noconfirm -Sy xfce4 xfce4-goodies ttf-dejavu
 
 ## productivity
 #sudo pacman -Sy --noconfirm wireguard-tools keepassxc thunderbird syncthing code inkscape gimp texstudio texlive-core transmission-gtk obs-studio signal-desktop element-desktop vlc julia sxhkd neofetch
@@ -105,11 +105,11 @@ arch-chroot /mnt echo ".config/dot" >> /home/johan/.gitignore
 arch-chroot /mnt git clone --bare https://github.com/johan-jansson/dot /home/johan/.config/dot
 arch-chroot /mnt /usr/bin/git --git-dir=/home/johan/.config/dot/ --work-tree=/home/johan checkout
 arch-chroot /mnt /usr/bin/git --git-dir=/home/johan/.config/dot/ --work-tree=/home/johan config --local status.showUntrackedFiles no
-arch-chroot /mnt chown johan.johan -R /home/johan/
+arch-chroot /mnt chown johan.users -R /home/johan/
 arch-chroot /mnt rm -f "/home/johan/README.md"
 arch-chroot /mnt /usr/bin/git --git-dir=/home/johan/.config/dot/ --work-tree=/home/johan update-index --assume-unchanged "README.md"
 
 # clean up and reboot
-umount -R /mnt
-swapoff -a
-reboot
+#umount -R /mnt
+#swapoff -a
+#reboot
