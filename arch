@@ -84,10 +84,13 @@ arch-chroot /mnt pacman --noconfirm -Sy git base-devel man-db neovim zsh zsh-syn
 # minimal xorg with nvidia gpu acceleration and pulseaudio
 arch-chroot /mnt pacman --noconfirm -Sy libx11 libxft xorg-server xorg-xinit xorg-xrandr xorg-xrdb xorg-xinput xclip xorg-setxkbmap nvidia nvidia-settings xorg-fonts-encodings libxinerama pulseaudio pulseaudio-alsa
 
-# gnome
+# gnome (with thumbnails)
 arch-chroot /mnt pacman --noconfirm -Sy gnome gnome-extra gnome-tweaks
 arch-chroot systemctl enable NetworkManager
 arch-chroot systemctl enable gdm
+
+# thumbnails DELETE THESE WHEN SYSTEM IS CLEAN
+arch-chroot /mnt pacman --noconfirm -Sy tumbler ffmpegthumbnailer poppler-glib freetype2 libgsf raw-thumbnailer totem
 
 # productivity
 arch-chroot /mnt pacman --noconfirm -Sy keepassxc thunderbird syncthing
