@@ -30,7 +30,7 @@ parted /dev/nvme1n1 mkpart primary 513 100%
 parted /dev/nvme1n1 name 2 archlinux
 
 # encrypt and open root partition /dev/mapper/crypt-root
-cryptsetup luksFormat -v --key-size 512 --hash sha256 /dev/nvme1n1p2
+cryptsetup luksFormat --verbose --key-size 512 --hash sha256 /dev/nvme1n1p2
 cryptsetup open /dev/nvme1n1p2 arch
 
 # initialize and mount new filesystems
@@ -41,9 +41,9 @@ mkdir /mnt/boot
 mount /dev/nvme1n1p1 /mnt/boot
 
 # mount other filesystems which should be in the new /etc/fstab
-#cryptsetup open /dev/md/raid1 raid1
-#mkdir /mnt/home/data/
-#mount /dev/mapper/raid1 /mnt/home/data/
+cryptsetup open /dev/md/raid1 raid1
+mkdir /mnt/home/data/
+mount /dev/mapper/raid1 /mnt/home/data/
 #cryptsetup open /dev/sdb1 backup
 #mkdir /mnt/home/backup/
 #mount /dev/mapper/backup /mnt/home/backup/
@@ -75,7 +75,7 @@ arch-chroot /mnt sed -i 's/GRUB_CMDLINE_LINUX=""/GRUB_CMDLINE_LINUX="cryptdevice
 arch-chroot /mnt grub-mkconfig -o /boot/grub/grub.cfg
 
 # configure and enable wireguard VPN
-cp /mnt/home/data/documents/networking/integrity_vpn/*integrity_vpn.conf /etc/wireguard/
+cp /mnt/home/data/sync/integrity_vpn/*integrity_vpn.conf /mnt/etc/wireguard/
 arch-chroot /mnt systemctl enable wg-quick@SEintegrity_vpn.service
 
 # install basic tools
