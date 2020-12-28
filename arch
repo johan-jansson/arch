@@ -75,7 +75,7 @@ arch-chroot /mnt sed -i 's/GRUB_CMDLINE_LINUX=""/GRUB_CMDLINE_LINUX="cryptdevice
 arch-chroot /mnt grub-mkconfig -o /boot/grub/grub.cfg
 
 # configure and enable wireguard VPN
-cp /mnt/home/johan/raid1/documents/networking/integrity_vpn/*integrity_vpn.conf /etc/wireguard/
+cp /mnt/home/data/documents/networking/integrity_vpn/*integrity_vpn.conf /etc/wireguard/
 arch-chroot /mnt systemctl enable wg-quick@SEintegrity_vpn.service
 
 # install basic tools
