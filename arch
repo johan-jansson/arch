@@ -30,12 +30,12 @@ parted /dev/nvme1n1 mkpart primary 513 100%
 parted /dev/nvme1n1 name 2 archlinux
 
 # encrypt and open root partition /dev/mapper/crypt-root
-cryptsetup luksFormat -v -s 512 -h sha256 /dev/nvme1n1p2
-cryptsetup open /dev/nvme1n1p2 arch-root
+cryptsetup luksFormat -v --key-size 512 --hash sha256 /dev/nvme1n1p2
+cryptsetup open /dev/nvme1n1p2 arch
 
 # initialize and mount new filesystems
-mkfs.ext4 /dev/mapper/arch-root
-mount /dev/mapper/arch-root /mnt
+mkfs.ext4 /dev/mapper/arch
+mount /dev/mapper/arch /mnt
 mkfs.fat -F32 /dev/nvme1n1p1
 mkdir /mnt/boot
 mount /dev/nvme1n1p1 /mnt/boot
@@ -71,7 +71,7 @@ arch-chroot /mnt sed -i 's/MODULES=()/MODULES=(ext4)/' /etc/mkinitcpio.conf
 arch-chroot /mnt sed -i 's/HOOKS=(base\ udev\ autodetect\ modconf\ block\ filesystems\ keyboard\ fsck)/HOOKS=(base\ udev\ autodetect\ modconf\ block\ encrypt\ filesystems\ keyboard\ fsck)/' /etc/mkinitcpio.conf
 arch-chroot /mnt mkinitcpio -p linux
 arch-chroot /mnt grub-install --target=x86_64-efi --efi-directory=/boot
-arch-chroot /mnt sed -i 's/GRUB_CMDLINE_LINUX=""/GRUB_CMDLINE_LINUX="cryptdevice=\/dev\/nvme1n1p2:arch-root"/' /etc/default/grub
+arch-chroot /mnt sed -i 's/GRUB_CMDLINE_LINUX=""/GRUB_CMDLINE_LINUX="cryptdevice=\/dev\/nvme1n1p2:arch"/' /etc/default/grub
 arch-chroot /mnt grub-mkconfig -o /boot/grub/grub.cfg
 
 # configure and enable wireguard VPN
