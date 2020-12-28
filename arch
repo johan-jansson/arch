@@ -74,9 +74,6 @@ arch-chroot /mnt grub-install --target=x86_64-efi --efi-directory=/boot
 arch-chroot /mnt sed -i 's/GRUB_CMDLINE_LINUX=""/GRUB_CMDLINE_LINUX="cryptdevice=\/dev\/nvme1n1p2:arch"/' /etc/default/grub
 arch-chroot /mnt grub-mkconfig -o /boot/grub/grub.cfg
 
-# fix randomly misbehaving usb peripherals
-echo "options usbcore autosuspend=0" > /mnt/etc/modprobe.d/usbautosuspend.conf
-
 # configure and enable wireguard VPN
 cp /mnt/home/data/documents/networking/integrity_vpn/*integrity_vpn.conf /etc/wireguard/
 arch-chroot /mnt systemctl enable wg-quick@SEintegrity_vpn.service
