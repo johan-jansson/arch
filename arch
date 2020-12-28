@@ -110,5 +110,5 @@ arch-chroot /mnt /usr/bin/git --git-dir=/home/johan/.config/dot/ --work-tree=/ho
 arch-chroot /mnt rm -f "/home/johan/README.md"
 
 # clean up and reboot
-#umount -R /mnt
-#reboot
+umount -R /mnt
+reboot
