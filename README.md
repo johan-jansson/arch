@@ -1,8 +1,8 @@
 # installation script for arch linux
 
-## What it does
-
 _WARNING_: any data on /dev/nvme1n1 is destroyed when running this script
+
+## What it does
 
 * set swedish keymap and syncronize time using default ntp-server
 
