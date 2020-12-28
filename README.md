@@ -9,15 +9,15 @@ _WARNING_: any data on /dev/nvme1n1 is destroyed when running this script
 * /dev/nvme1n1p2 luks2 encrypted ext4 / (root) partition is created and mounted at /mnt
 * /dev/nvme1n1p1 non-encrypted boot partition of 500Mb is created and mounted at /mnt/boot
 
-* /dev/sdb is decrypted and mounted at /mnt/home/backup
-* /dev/md/raid1 (/dev/sdc and /dev/sdd) is decrypted and mounted at /mnt/home/raid1
+* /dev/sdb1 is decrypted and mounted at /mnt/home/backup/
+* /dev/md/raid1 (/dev/sdc1 and /dev/sdd1) is decrypted and mounted at /mnt/home/data/
 
 * pacstrap of the following packages:
   * base            (archlinux base system)
-  * efibootmgr      (EFI boot manager)
+  * efibootmgr       (EFI boot manager)
   * grub            (grub boot loader)
   * linux           (linux kernel)
-  * linux-firmware  (binary blobs for certain hardware)
+  * linux-firmware   (binary blobs for certain hardware)
   * mkinitcpio      (tools to generate initial ram file system s.t. we can boot encrypted root drive)
   * e2fsprogs       (ext4 tools)
   * mdadm           (raid tools)
@@ -45,8 +45,8 @@ _WARNING_: any data on /dev/nvme1n1 is destroyed when running this script
 * add the cryptdevice of /dev/nvme1n1p2 to grub boot kernel parameters
 * generate default grub configuration in /mnt/boot/grub/grub.cfg
 
-* wireguard certificates are copied from /mnt/home/raid1 to /etc/wireguard/
-* wireguard autostart is enabled for the new system
+* wireguard certificates are copied from /mnt/home/data/ to /mnt/etc/wireguard/
+* wireguard service is enabled for the new system
 
 * basic packages for new system
   * git 
@@ -54,7 +54,7 @@ _WARNING_: any data on /dev/nvme1n1 is destroyed when running this script
   * man-db                  (man pages for base system)
   * neovim                  (texteditor, nvim)
   * zsh                     (z-shell)
-  * zsh-syntax-highlighting
+  * zsh-syntax-highlighting (syntax highlighting for zsh scripts and other stuff)
   
 * xorg with gpu acceleration and audio for new system
   * libx11                  (xorg libraries)
@@ -73,18 +73,33 @@ _WARNING_: any data on /dev/nvme1n1 is destroyed when running this script
   * pulseaudio              (pulseaudio audio server, for settings volume, selecting outputs/inputs etc.)
   * pulseaudio-alsa         (pulseaudio interface against ALSA kernel module)
   
-* xfce4 installation for new system
-  * xfce4                   (bare xfce4 environment)
-  * gvfs                    (tools for automounting usb-devices, etc, trash-bin support)
-  * xfce4-goodies           (extra software for sensors, etc, including fzf-enabled whiskermenu)
-  * ttf-dejavu              (nicer fonts with good UTF8 support)
+* gnome installation for new system
+  * gnome                   (gnome environment with tightly integrated softwar)
+  * gnome-tweaks            (control panel with advanced gnome settings)
+  * ffmpegthumbnailer        (video thumbnails)
+  * tumbler                 (image thumbnails)
+* enable NetworkManager service s.t. wifi and networking can be configured in the gnome GUI
+* enable gdm autostart on boot, allows lockscreen etc.
   
 * basic productivity tools for new system
   * keepassxc               (password manager)
   * thunderbird             (email client)
   * syncthing               (secure decentralized syncing)
-  * zathura                 (document viewer)
-  * zatuhra-pdf-mupdf       (pdf support for zathura via mupdf)
+  * mpv                     (video player)
+  * transmission-gtk        (bittorrent client)
+  * code                    (open source version of visual studio code - IDE)
+  * julia                   (julia programming language for scientific computing)
+  * inkscape                (vector graphics tool)
+  * gimp                    (raster graphics tool)
+  * texstudio               (latex IDE)
+  * texlive-core            (latex basic packages)
+  * obs-studio              (streaming/recording and overlay software)
+  * screenkey               (pressed keys are overlayed desktop)
+  * signal-desktop          (encrypted instant messaging, phone calls and video calls)
+  * element-desktop         (encrypted and federated group chat)
+  
+* vim dependencies
+  * various dependencies for the current neovim configuration
 
 * pulls and tracks configuration using bare repo at github.com/johan-jansson/dot
 * example commands:
@@ -92,3 +107,6 @@ _WARNING_: any data on /dev/nvme1n1 is destroyed when running this script
   * config add <file>
   * config commit -am "updated config"
   * config push
+* enforces permissions to johan.users for all of /home
+ 
+* unmounts everything and reboots into fresh system!
