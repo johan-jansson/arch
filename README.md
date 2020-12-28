@@ -1,6 +1,6 @@
-# arch-crypto
+# installation script for arch linux
 
-installation script for arch linux
+## What it does.
 
 1. /dev/nvme1n1p1 -> /boot (no encryption)
 2. /dev/nvme1n1p2 -> /     (encryption) via /dev/mapper/arch-root
