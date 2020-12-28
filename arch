@@ -10,10 +10,10 @@
 # | | | | \__ \ || (_| | | | (_| | |_| | (_) | | | | \__ \ (__| |  | | |_) | |_ 
 # |_|_| |_|___/\__\__,_|_|_|\__,_|\__|_|\___/|_| |_| |___/\___|_|  |_| .__/ \__|
 #                                                                    |_|        
-# Archlinux installation script for system using UEFI and NVMe
+# Archlinux installation script for systems using UEFI and NVMe
 # Based on https://wiki.archlinux.org/index.php/Installation_guide
 #
-# 0. boot archlinux-date-x86_64.iso
+# 0. boot archlinux-date-x86_64.iso in UEFI mode
 # 1. git clone https://github.com/johan-jansson/arch-crypto
 # 2. ./arch
 
@@ -33,15 +33,23 @@ parted /dev/nvme1n1 name 2 archlinux
 cryptsetup luksFormat -v -s 512 -h sha256 /dev/nvme1n1p2
 cryptsetup open /dev/nvme1n1p2 arch-root
 
-# initialize and mount filesystems
+# initialize and mount new filesystems
 mkfs.ext4 /dev/mapper/arch-root
 mount /dev/mapper/arch-root /mnt
 mkfs.fat -F32 /dev/nvme1n1p1
 mkdir /mnt/boot
 mount /dev/nvme1n1p1 /mnt/boot
 
+# mount other filesystems which should be in the new /etc/fstab
+cryptsetup open /dev/md/raid1 raid1
+mkdir /mnt/home/data/
+mount /dev/mapper/raid1 /mnt/home/data/
+cryptsetup open /dev/sdb1 backup
+mkdir /mnt/home/backup/
+mount /dev/mapper/backup /mnt/home/backup/
+
 # minimal environment with lan + wireless networking and wireguard VPN
-pacstrap /mnt base efibootmgr grub linux linux-firmware mkinitcpio e2fsprogs mdadm iproute2 dhcpcd dialog wpa_supplicant sudo wireguard-tools resolvconf
+pacstrap /mnt base efibootmgr grub linux linux-firmware mkinitcpio e2fsprogs mdadm iproute2 dhcpcd wpa_supplicant dialog wireguard-tools resolvconf sudo
 genfstab -pU /mnt >> /mnt/etc/fstab
 echo "tmpfs	/tmp	tmpfs	defaults,noatime,mode=1777	0	0" >> /mnt/etc/fstab
 arch-chroot /mnt ln -sf /usr/share/zoneinfo/Europe/Stockholm /etc/localtime
@@ -66,6 +74,10 @@ arch-chroot /mnt grub-install --target=x86_64-efi --efi-directory=/boot
 arch-chroot /mnt sed -i 's/GRUB_CMDLINE_LINUX=""/GRUB_CMDLINE_LINUX="cryptdevice=\/dev\/nvme1n1p2:arch-root"/' /etc/default/grub
 arch-chroot /mnt grub-mkconfig -o /boot/grub/grub.cfg
 
+# configure and enable wireguard VPN
+cp /mnt/home/johan/raid1/documents/networking/integrity_vpn/*integrity_vpn.conf /etc/wireguard/
+arch-chroot /mnt systemctl enable wg-quick@SEintegrity_vpn.service
+
 # install basic tools
 arch-chroot /mnt pacman --noconfirm -Sy git base-devel man-db neovim zsh zsh-syntax-highlighting
 
@@ -75,33 +87,13 @@ arch-chroot /mnt pacman --noconfirm -Sy libx11 libxft xorg-server xorg-xinit xor
 # xfce4
 arch-chroot /mnt pacman --noconfirm -Sy xfce4 gvfs xfce4-goodies ttf-dejavu
 
-# aur helper
-#cd $HOME
-#git clone https://aur.archlinux.org/yay
-#cd yay
-#makepkg -si --noconfirm
-#cd $HOME
-#rm -rf yay
-
-# aur packages
-#yay --cleanafter -S brave-bin
-
 # productivity
-#sudo pacman -Sy --noconfirm keepassxc thunderbird syncthing zathura zathura-pdf-mupdf
-
-
+arch-chroot /mnt pacman --noconfirm -Sy keepassxc thunderbird syncthing zathura zathura-pdf-mupdf
 
 ## productivity 2
-#sudo pacman -Sy --noconfirm code inkscape gimp texstudio texlive-core transmission-gtk obs-studio signal-desktop element-desktop vlc julia sxhkd neofetch
+#sudo pacman -Sy --noconfirm code inkscape gimp texstudio texlive-core transmission-gtk obs-studio signal-desktop element-desktop vlc julia
 ## dependencies for productivity, specific to configuration
 #sudo pacman --noconfirm -Sy openresolv pdf2svg screenkey rtmpdump atomicparsley xdotool python-neovim python-pdftotext python-sympy nodejs yarn fzf ripgrep bat pacman-contrib
-
-#yay --cleanafter -S ttf-juliamono
-#yay --cleanafter -S zoom
-#yay --cleanafter -S mattermost-desktop-bin
-#yay --cleanafter -S discord
-#yay --cleanafter -S teams
-#yay --cleanafter -S spotify
 
 # deploy configuration management
 arch-chroot /mnt mkdir /home/johan/.config/
