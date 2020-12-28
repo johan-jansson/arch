@@ -18,23 +18,5 @@ xinput --set-prop 8 'libinput Accel Speed' -1  # wired connection
 # decrease repeated keypress delay
 xset r rate 300 50
 
-## set wallpaper
-#xwallpaper --zoom /usr/share/backgrounds/archlinux/conference.png
-
-## load compositor
-#picom -b
-
-## start notification daemon
-#dunst &
-
-## remove mouse pointer when idle
-#unclutter &
-
-## start dwmblocks
-#dwmblocks &
-
-## load dwm window manger
-#exec dwm
-
-# load xfce4
+# start xfce4
 exec startxfce4
