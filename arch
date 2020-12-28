@@ -85,10 +85,12 @@ arch-chroot /mnt pacman --noconfirm -Sy git base-devel man-db neovim zsh zsh-syn
 arch-chroot /mnt pacman --noconfirm -Sy libx11 libxft xorg-server xorg-xinit xorg-xrandr xorg-xrdb xorg-xinput xclip xorg-setxkbmap nvidia nvidia-settings xorg-fonts-encodings libxinerama pulseaudio pulseaudio-alsa
 
 # gnome
-arch-chroot /mnt pacman --noconfirm -Sy gnome gnome-tweaks
+arch-chroot /mnt pacman --noconfirm -Sy gnome gnome-extra gnome-tweaks
+arch-chroot systemctl enable NetworkManager
+arch-chroot systemctl enable gdm
 
 # productivity
-arch-chroot /mnt pacman --noconfirm -Sy keepassxc thunderbird syncthing zathura zathura-pdf-mupdf
+arch-chroot /mnt pacman --noconfirm -Sy keepassxc thunderbird syncthing
 
 ## productivity 2
 #sudo pacman -Sy --noconfirm code inkscape gimp texstudio texlive-core transmission-gtk obs-studio signal-desktop element-desktop vlc julia
