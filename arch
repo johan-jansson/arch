@@ -84,22 +84,16 @@ arch-chroot /mnt pacman --noconfirm -Sy git base-devel man-db neovim zsh zsh-syn
 # minimal xorg with nvidia gpu acceleration and pulseaudio
 arch-chroot /mnt pacman --noconfirm -Sy libx11 libxft xorg-server xorg-xinit xorg-xrandr xorg-xrdb xorg-xinput xclip xorg-setxkbmap nvidia nvidia-settings xorg-fonts-encodings libxinerama pulseaudio pulseaudio-alsa
 
-# gnome (with thumbnails)
-arch-chroot /mnt pacman --noconfirm -Sy gnome gnome-extra gnome-tweaks
+# basic gnome
+arch-chroot /mnt pacman --noconfirm -Sy gnome gnome-tweaks ffmpegthumbnailer tumbler
 arch-chroot systemctl enable NetworkManager
 arch-chroot systemctl enable gdm
 
-# thumbnailers
-arch-chroot /mnt pacman --noconfirm -Sy mpv tumbler ffmpeg ffmpegthumbnailer poppler-glib freetype2 libgsf raw-thumbnailer totem
+# basic system
+arch-chroot /mnt pacman --noconfirm -Sy keepassxc thunderbird syncthing mpv transmission-gtk code julia inkscape gimp texstudio texlive-core obs-studio screenkey signal-desktop element-desktop 
 
-# productivity
-arch-chroot /mnt pacman --noconfirm -Sy keepassxc thunderbird syncthing
-
-# productivity 2
-sudo pacman -Sy --noconfirm code inkscape gimp texstudio texlive-core transmission-gtk obs-studio signal-desktop element-desktop julia
-
-# dependencies for productivity, specific to configuration
-sudo pacman --noconfirm -Sy pdf2svg screenkey rtmpdump atomicparsley xdotool python-neovim python-pdftotext python-sympy nodejs yarn fzf ripgrep bat pacman-contrib
+# dependencies for vim workflows
+sudo pacman --noconfirm -Sy pdf2svg rtmpdump atomicparsley xdotool python-neovim python-pdftotext python-sympy nodejs yarn fzf ripgrep bat pacman-contrib
 
 # deploy configuration management
 arch-chroot /mnt mkdir /home/johan/.config/
