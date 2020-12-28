@@ -75,13 +75,7 @@ arch-chroot /mnt pacman --noconfirm -Sy libx11 libxft xorg-server xorg-xinit xor
 # xfce4
 arch-chroot /mnt pacman --noconfirm -Sy xfce4 xfce4-goodies ttf-dejavu
 
-## productivity
-#sudo pacman -Sy --noconfirm wireguard-tools keepassxc thunderbird syncthing code inkscape gimp texstudio texlive-core transmission-gtk obs-studio signal-desktop element-desktop vlc julia sxhkd neofetch
-
-## dependencies for productivity, specific to configuration
-#sudo pacman --noconfirm -Sy openresolv pdf2svg screenkey rtmpdump atomicparsley xdotool python-neovim python-pdftotext python-sympy nodejs yarn fzf ripgrep bat pacman-contrib
-
-## aur helper
+# aur helper
 #cd $HOME
 #git clone https://aur.archlinux.org/yay
 #cd yay
@@ -89,8 +83,19 @@ arch-chroot /mnt pacman --noconfirm -Sy xfce4 xfce4-goodies ttf-dejavu
 #cd $HOME
 #rm -rf yay
 
-## aur packages
+# aur packages
 #yay --cleanafter -S brave-bin
+
+# productivity
+#sudo pacman -Sy --noconfirm wireguard-tools keepassxc thunderbird syncthing
+
+
+
+## productivity 2
+#sudo pacman -Sy --noconfirm code inkscape gimp texstudio texlive-core transmission-gtk obs-studio signal-desktop element-desktop vlc julia sxhkd neofetch
+## dependencies for productivity, specific to configuration
+#sudo pacman --noconfirm -Sy openresolv pdf2svg screenkey rtmpdump atomicparsley xdotool python-neovim python-pdftotext python-sympy nodejs yarn fzf ripgrep bat pacman-contrib
+
 #yay --cleanafter -S ttf-juliamono
 #yay --cleanafter -S zoom
 #yay --cleanafter -S mattermost-desktop-bin
