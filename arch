@@ -10,11 +10,11 @@
 # | | | | \__ \ || (_| | | | (_| | |_| | (_) | | | | \__ \ (__| |  | | |_) | |_ 
 # |_|_| |_|___/\__\__,_|_|_|\__,_|\__|_|\___/|_| |_| |___/\___|_|  |_| .__/ \__|
 #                                                                    |_|        
-# Archlinux installation script for systems using UEFI and NVMe
+# Archlinux installation script for fully encrypted system using UEFI and NVMe
 # Based on https://wiki.archlinux.org/index.php/Installation_guide
 #
 # 0. boot archlinux-date-x86_64.iso in UEFI mode
-# 1. git clone https://github.com/johan-jansson/arch-crypto
+# 1. git clone https://github.com/johan-jansson/arch
 # 2. ./arch
 
 loadkeys sv-latin1
