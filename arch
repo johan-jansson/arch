@@ -84,8 +84,8 @@ arch-chroot /mnt pacman --noconfirm -Sy git base-devel man-db neovim zsh zsh-syn
 # minimal xorg with nvidia gpu acceleration and pulseaudio
 arch-chroot /mnt pacman --noconfirm -Sy libx11 libxft xorg-server xorg-xinit xorg-xrandr xorg-xrdb xorg-xinput xclip xorg-setxkbmap nvidia nvidia-settings xorg-fonts-encodings libxinerama pulseaudio pulseaudio-alsa
 
-# xfce4
-arch-chroot /mnt pacman --noconfirm -Sy xfce4 gvfs xfce4-goodies ttf-dejavu
+# gnome
+arch-chroot /mnt pacman --noconfirm -Sy gnome
 
 # productivity
 arch-chroot /mnt pacman --noconfirm -Sy keepassxc thunderbird syncthing zathura zathura-pdf-mupdf
