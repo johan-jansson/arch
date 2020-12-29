@@ -53,6 +53,8 @@ mount /dev/mapper/backup /mnt/home/backup/
 pacstrap /mnt base efibootmgr grub linux linux-firmware mkinitcpio e2fsprogs mdadm iproute2 dhcpcd wpa_supplicant dialog wireguard-tools resolvconf sudo
 genfstab -pU /mnt >> /mnt/etc/fstab
 echo "tmpfs	/tmp	tmpfs	defaults,noatime,mode=1777	0	0" >> /mnt/etc/fstab
+echo "raid1 /dev/md/raid1 none" >> /mnt/etc/crypttab
+echo "backup /dev/sdb1 none" >> /mnt/etc/crypttab
 arch-chroot /mnt ln -sf /usr/share/zoneinfo/Europe/Stockholm /etc/localtime
 arch-chroot /mnt hwclock --systohc
 echo "en_US.UTF-8 UTF-8" >> /mnt/etc/locale.gen
@@ -87,8 +89,8 @@ arch-chroot /mnt pacman --noconfirm -Sy libx11 libxft xorg-server xorg-xinit xor
 
 # basic gnome
 arch-chroot /mnt pacman --noconfirm -Sy gnome gnome-tweaks ffmpegthumbnailer tumbler
-arch-chroot systemctl enable NetworkManager
-arch-chroot systemctl enable gdm
+arch-chroot /mnt systemctl enable NetworkManager
+arch-chroot /mnt systemctl enable gdm
 
 # basic system
 arch-chroot /mnt pacman --noconfirm -Sy keepassxc thunderbird syncthing mpv transmission-gtk code julia inkscape gimp texstudio texlive-core obs-studio screenkey signal-desktop element-desktop 
