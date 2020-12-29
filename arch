@@ -94,7 +94,7 @@ arch-chroot systemctl enable gdm
 arch-chroot /mnt pacman --noconfirm -Sy keepassxc thunderbird syncthing mpv transmission-gtk code julia inkscape gimp texstudio texlive-core obs-studio screenkey signal-desktop element-desktop 
 
 # dependencies for vim workflows
-sudo pacman --noconfirm -Sy pdf2svg rtmpdump atomicparsley xdotool python-neovim python-pdftotext python-sympy nodejs yarn fzf ripgrep bat pacman-contrib
+arch-chroot /mnt pacman --noconfirm -Sy pdf2svg rtmpdump atomicparsley xdotool python-neovim python-pdftotext python-sympy nodejs yarn fzf ripgrep bat pacman-contrib
 
 # deploy configuration management
 arch-chroot /mnt mkdir /home/johan/.config/
