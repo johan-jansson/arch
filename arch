@@ -93,7 +93,7 @@ arch-chroot /mnt systemctl enable NetworkManager
 arch-chroot /mnt systemctl enable gdm
 
 # basic system
-arch-chroot /mnt pacman --noconfirm -Sy keepassxc thunderbird syncthing mpv transmission-gtk code inkscape gimp texstudio texlive-core obs-studio screenkey signal-desktop element-desktop 
+arch-chroot /mnt pacman --noconfirm -Sy keepassxc thunderbird syncthing mpv transmission-gtk code inkscape gimp texstudio texlive-core texlive-most obs-studio screenkey signal-desktop element-desktop 
 
 # dependencies for vim workflows
 arch-chroot /mnt pacman --noconfirm -Sy pdf2svg rtmpdump atomicparsley xdotool python-neovim python-pdftotext python-sympy nodejs yarn fzf ripgrep bat pacman-contrib
